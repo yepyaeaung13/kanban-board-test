@@ -12,7 +12,6 @@ export function TaskForm({ onClose, existingTask }: Props) {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<TaskStatus>("todo");
   const updateTask = useTaskStore((state) => state.updateTask);
-
   const [dueDate, setDueDate] = useState<string>("");
 
   useEffect(() => {

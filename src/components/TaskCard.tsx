@@ -12,6 +12,10 @@ interface Props {
 export function TaskCard({ task, onEdit, onDelete }: Props) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: task.id,
+    data: {
+      taskId: task.id,
+      fromColumn: task.status,
+    },
   });
 
   const style = {
@@ -29,10 +33,10 @@ export function TaskCard({ task, onEdit, onDelete }: Props) {
     >
       <div
         {...listeners}
-        className="cursor-grab active:cursor-grabbing"
+        className="w-full space-y-1 cursor-grab active:cursor-grabbing"
         title="Drag"
       >
-        <h4 className="font-semibold">{task.title}</h4>
+        <h4 className="font-semibold text-sm text-wrap md:w-2/3 w-5/6">{task.title}</h4>
         {task.description && (
           <p className="text-sm text-gray-600">{task.description}</p>
         )}

@@ -7,8 +7,8 @@ import { ConfirmDialog } from "./ConfirmDialog";
 import { useTaskStore } from "../store/taskStore";
 import { clsx } from "clsx";
 import IconPlus from "./icons/IconPlus";
-import IconCalendar from "./icons/IconCalendar";
 import IconClose from "./icons/IconClose";
+import { DatePicker } from "./DatePicker";
 
 interface Props {
   title: string;
@@ -30,7 +30,12 @@ export function TaskColumn({
   const [deletingTask, setDeletingTask] = useState<Task | null>(null);
   const [filterDue, setFilterDue] = useState<string>(""); // YYYY-MM-DD
   const [showForm, setShowForm] = useState<boolean>(false);
-  const {addTask, deleteTask} = useTaskStore((state) => state);
+  const { addTask, deleteTask } = useTaskStore((state) => state);
+
+  const filteredTasks = tasks.filter((task) => {
+    if (!filterDue) return true;
+    return task.dueDate === filterDue;
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,43 +44,37 @@ export function TaskColumn({
     const description = formData.get("description") as string;
     addTask({ title, description, status, dueDate: "" });
     setShowForm(false);
-  }
+  };
 
   return (
-    <div className={clsx("w-full md:w-80 inline-flex flex-col")}>
+    <div className={clsx("w-full md:w-96 inline-flex flex-col")}>
       <div className={clsx("p-4 rounded-xl shadow-xl", className)}>
         <div className="flex justify-between items-center">
           <h2 className={clsx("text-lg font-bold mb-4")}>{title}</h2>
-          <div className="flex gap-4 mb-4">
-            <label
-              htmlFor="due-date"
-              className=" bg-white/50 py-1 px-2 rounded-xl flex gap-1.5 cursor-pointer text-sm"
-            >
-              Filter <IconCalendar />
-            </label>
-            <input
-              type="date"
-              id="due-date"
-              value={filterDue}
-              onChange={(e) => setFilterDue(e.target.value)}
-              className="hidden rounded-lg px-3 py-1"
-            />
+          <div className="flex gap-4 mb-4 shadow-sm">
+          <DatePicker filterDue={filterDue} setFilterDue={setFilterDue} />
           </div>
         </div>
         <div
           ref={setNodeRef}
           className={clsx(
-            "max-h-96 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-thin pr-2 mb-2"
+            "min-h-2 max-h-96 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-thin pr-2 mb-2"
           )}
         >
-          {tasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              task={task}
-              onEdit={setEditingTask}
-              onDelete={setDeletingTask}
-            />
-          ))}
+          {filteredTasks.length === 0 && filterDue ? (
+            <div className="text-sm text-center text-gray-500 py-2">
+              No tasks found for the selected date.
+            </div>
+          ) : (
+            filteredTasks.map((task) => (
+              <TaskCard
+                key={task.id}
+                task={task}
+                onEdit={setEditingTask}
+                onDelete={setDeletingTask}
+              />
+            ))
+          )}
 
           {editingTask && (
             <TaskForm
@@ -97,7 +96,7 @@ export function TaskColumn({
         </div>
 
         {showForm ? (
-          <form onSubmit={handleSubmit} className="space-y-2 mt-5">
+          <form onSubmit={handleSubmit} className="space-y-2 mt-5 pr-2">
             <input
               type="text"
               name="title"
@@ -120,7 +119,10 @@ export function TaskColumn({
               >
                 Add card
               </button>
-              <button  onClick={() => setShowForm(false)} className="cursor-pointer">
+              <button
+                onClick={() => setShowForm(false)}
+                className="cursor-pointer"
+              >
                 <IconClose />
               </button>
             </div>
