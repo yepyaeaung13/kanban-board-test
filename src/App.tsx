@@ -38,7 +38,7 @@ function App() {
         <i className="text-green-400">Board</i>
       </h1>
       <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-        <div className="flex flex-col md:flex-row gap-5 justify-center">
+        <div className="flex flex-col md:flex-row gap-5 justify-center mb-5">
           <TaskColumn
             title="To Do"
             status="todo"

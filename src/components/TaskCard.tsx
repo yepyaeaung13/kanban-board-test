@@ -56,7 +56,7 @@ export function TaskCard({ task, onEdit, onDelete }: Props) {
           onClick={() => {
             onDelete?.(task);
           }}
-          className="z-50 text-xs text-red-500 active:scale-90 duration-200 cursor-pointer"
+          className="text-xs text-red-500 active:scale-90 duration-200 cursor-pointer"
         >
           <IconDelete />
         </button>

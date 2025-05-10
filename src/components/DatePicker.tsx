@@ -41,7 +41,7 @@ export function DatePicker({ filterDue, setFilterDue }: DatePickerProps) {
             type="date"
             value={filterDue}
             onChange={handleSelect}
-            className="border rounded-md px-2 py-1 text-sm"
+            className="border rounded-md px-2 py-1 text-sm text-black"
           />
           <Button variant="ghost" className="text-xs px-2 py-1 self-start" onClick={handleClear}>
             <X className="w-3 h-3 mr-1" />
