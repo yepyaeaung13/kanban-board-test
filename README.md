@@ -1,25 +1,31 @@
-# Kanban Board Test
+
+### Kanban Board Test
 
 A mini Kanban Task Management App built as a code test using **React**, **TypeScript**, **Tailwind CSS**, and **Zustand**.
-
----
 
 ## 🚀 Project Setup
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yepyaeaung13/kanban-board-test.git
-   cd kanban-board-test
+
+```shellscript
+git clone https://github.com/yepyaeaung13/kanban-board-test.git
+cd kanban-board-test
+```
 
 2. **Install dependencies**
-  ```bash
-  npm install
+
+```shellscript
+npm install
+```
 
 3. **Start development server**
-  ```bash
-  npm run dev
+
+```shellscript
+npm run dev
+```
 
 ## ✅ Features Implemented
+
 - Create, edit, and delete tasks
 - Drag & drop tasks between columns
 - Filter tasks by due date (with calendar picker)
@@ -27,31 +33,41 @@ A mini Kanban Task Management App built as a code test using **React**, **TypeSc
 - Responsive layout with scrollable task columns
 - ShadCN UI components and Tailwind CSS styling
 
+
 ## 🧠 Assumptions Made
+
 - Tasks are stored in localStorage only (no backend)
 - Filtering by due date works per column
 - The task board includes 3 main statuses: Todo, In Progress, and Done
 - Calendar opens from the filter dropdown to select due date
 
+
 ## 🛠 Tech Stack
+
 - React + TypeScript
 - Tailwind CSS
 - Zustand (State Management)
 - Dnd-kit (Drag and Drop)
 - Shadcn/ui (Date Picker & Components)
 
+
 ## 📁 Folder Structure Overview
 
+```plaintext
 src/
 ├── components/      # TaskCard, TaskColumn, DatePicker, etc.
 ├── store/           # Zustand store for tasks
 ├── types/           # Task type definition
 ├── utils/           # Utility functions
 └── App.tsx
+```
 
 ## 🧪 Build & Run
-  ```npm install
-     npm run dev
+
+```shellscript
+npm install
+npm run dev
+```
 
 ## 🔗 Live Demo
 
