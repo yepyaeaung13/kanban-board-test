@@ -12,10 +12,12 @@ A mini Kanban Task Management App built as a code test using **React**, **TypeSc
    cd kanban-board-test
 
 2. **Install dependencies**
-  ```npm install
+  ```bash
+  npm install
 
 3. **Start development server**
-  ```npm run dev
+  ```bash
+  npm run dev
 
 ## ✅ Features Implemented
 - Create, edit, and delete tasks
