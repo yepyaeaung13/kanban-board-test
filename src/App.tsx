@@ -1,19 +1,32 @@
-import { DndContext, type DragEndEvent } from "@dnd-kit/core";
+import { DndContext, DragOverlay, type DragEndEvent, type DragStartEvent } from "@dnd-kit/core";
 import { TaskColumn } from "./components/TaskColumn";
 import { useTaskStore } from "./store/taskStore";
-import type { TaskStatus } from "./types/task";
-import { TaskForm } from "./components/TaskForm";
+import type { Task, TaskStatus } from "./types/task";
 import { useState } from "react";
+import { TaskCard } from "./components/TaskCard";
 
 function App() {
   const tasks = useTaskStore((state) => state.tasks);
   const moveTask = useTaskStore((state) => state.moveTask);
-  const [showForm, setShowForm] = useState(false);
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+
+  const onDragStart = (event: DragStartEvent) => {
+    const taskId = event.active.id as string;
+    const task = tasks.find((t) => t.id === taskId);
+    if (task) setActiveTask(task);
+  };
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (over && active.id !== over.id) {
-      moveTask(active.id as string, over.id as TaskStatus); // over.id is the new status
+    setActiveTask(null); // clear overlay
+
+    if (!over || !active?.data?.current) return;
+
+    const fromColumn = active.data.current.fromColumn as TaskStatus;
+    const toColumn = over.id as TaskStatus;
+
+    if (fromColumn !== toColumn) {
+      moveTask(active.id as string, toColumn);
     }
   };
 
@@ -24,9 +37,7 @@ function App() {
         <i className="text-blue-500">Task</i>
         <i className="text-green-400">Board</i>
       </h1>
-      <DndContext onDragEnd={onDragEnd}>
-        {showForm && <TaskForm onClose={() => setShowForm(false)} />}
-
+      <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <div className="flex flex-col md:flex-row gap-5 justify-center">
           <TaskColumn
             title="To Do"
@@ -50,6 +61,9 @@ function App() {
             btnColor="bg-green-300"
           />
         </div>
+        <DragOverlay>
+          {activeTask ? <TaskCard task={activeTask} /> : null}
+        </DragOverlay>
       </DndContext>
     </div>
   );
